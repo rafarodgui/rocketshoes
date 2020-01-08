@@ -33,6 +33,11 @@ export const ProductList = styled.ul`
             margin: 5px 0 20px;
         }
 
+        > small {
+            color: #666;
+            margin-top: 8px;
+        }
+
         button {
             display: flex;
             align-items: center;

@@ -1,134 +1,77 @@
-import React from 'react';
-import { MdAddShoppingCart } from 'react-icons/md'; 
+import React, { Component } from 'react';
+import { MdAddShoppingCart } from 'react-icons/md';
+import api from '../../services/api'; 
+
+import { connect } from 'react-redux';
+
+import { formatPrice } from '../../util/format';
 
 import { ProductList } from './styles';
 
-function Home() {
-  return (
-    <ProductList>
-      <li>
-        <img 
-          src="https://static.netshoes.com.br/produtos/tenis-vr-sneaker-meia-leve/06/E74-0492-006/E74-0492-006_detalhe2.jpg?ims=326x" 
-          alt="Tênis Olympikus Attract - Preto e Dourado" 
-        />
-        <strong>
-          Tênis Olympikus Attract - Preto e Dourado
-        </strong>
-        <small>A partir de</small>
-        <span>R$ 79,99</span>
+class Home extends Component {
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" /> 3
-          </div>
+  state = {
+    products: [],
+    itens: [],
+  }
 
-          <span>Adicionar ao carrinho</span>
-        </button>
-      </li>
+  async componentDidMount() {
+    const  response  = await api.get('/products');
 
-      <li>
-        <img 
-          src="https://static.netshoes.com.br/produtos/tenis-vr-sneaker-meia-leve/06/E74-0492-006/E74-0492-006_detalhe2.jpg?ims=326x" 
-          alt="Tênis Olympikus Attract - Preto e Dourado" 
-        />
-        <strong>
-          Tênis Olympikus Attract - Preto e Dourado
-        </strong>
-        <small>A partir de</small>
-        <span>R$ 79,99</span>
+    const data = response.data.map(product => ({
+      ...product,
+      priceFormatted: formatPrice(product.price),
+    }));
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" /> 3
-          </div>
+      this.setState({
+        products: data,
+      })
+  };
 
-          <span>Adicionar ao carrinho</span>
-        </button>
-      </li>
+  handleAddToCart = product => {
+    const { dispatch } = this.props;
 
-      <li>
-        <img 
-          src="https://static.netshoes.com.br/produtos/tenis-vr-sneaker-meia-leve/06/E74-0492-006/E74-0492-006_detalhe2.jpg?ims=326x" 
-          alt="Tênis Olympikus Attract - Preto e Dourado" 
-        />
-        <strong>
-          Tênis Olympikus Attract - Preto e Dourado
-        </strong>
-        <small>A partir de</small>
-        <span>R$ 79,99</span>
+    dispatch({
+      type: 'ADD_TO_CART',
+      product, 
+    })
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" /> 3
-          </div>
+    this.setState({
+      itens: [...this.state.itens, product]
+    })
+  };
 
-          <span>Adicionar ao carrinho</span>
-        </button>
-      </li>
+  render(){
 
-      <li>
-        <img 
-          src="https://static.netshoes.com.br/produtos/tenis-vr-sneaker-meia-leve/06/E74-0492-006/E74-0492-006_detalhe2.jpg?ims=326x" 
-          alt="Tênis Olympikus Attract - Preto e Dourado" 
-        />
-        <strong>
-          Tênis Olympikus Attract - Preto e Dourado
-        </strong>
-        <small>A partir de</small>
-        <span>R$ 79,99</span>
+    const { products, itens } = this.state;
 
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" /> 3
-          </div>
+    return (
+      <ProductList>
+        {products.map(product => (
+          <li key={product.id}>
+          <img 
+            src={product.image} 
+            alt={product.title} 
+          />
+          <strong>
+            {product.title}
+          </strong>
+          <small>A partir de</small>
+          <span>{product.priceFormatted}</span>
+  
+          <button type="button" onClick={() => this.handleAddToCart(product)}>
+            <div>
+              <MdAddShoppingCart size={16} color="#fff" /> {itens.length}
+            </div>
+  
+            <span>Adicionar ao carrinho</span>
+          </button>
+        </li>
+        ))};
+      </ProductList>
+    );
+  }
 
-          <span>Adicionar ao carrinho</span>
-        </button>
-      </li>
-
-      <li>
-        <img 
-          src="https://static.netshoes.com.br/produtos/tenis-vr-sneaker-meia-leve/06/E74-0492-006/E74-0492-006_detalhe2.jpg?ims=326x" 
-          alt="Tênis Olympikus Attract - Preto e Dourado" 
-        />
-        <strong>
-          Tênis Olympikus Attract - Preto e Dourado
-        </strong>
-        <small>A partir de</small>
-        <span>R$ 79,99</span>
-
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" /> 3
-          </div>
-
-          <span>Adicionar ao carrinho</span>
-        </button>
-      </li>
-
-      <li>
-        <img 
-          src="https://static.netshoes.com.br/produtos/tenis-vr-sneaker-meia-leve/06/E74-0492-006/E74-0492-006_detalhe2.jpg?ims=326x" 
-          alt="Tênis Olympikus Attract - Preto e Dourado" 
-        />
-        <strong>
-          Tênis Olympikus Attract - Preto e Dourado
-        </strong>
-        <small>A partir de</small>
-        <span>R$ 79,99</span>
-
-        <button type="button">
-          <div>
-            <MdAddShoppingCart size={16} color="#fff" /> 3
-          </div>
-
-          <span>Adicionar ao carrinho</span>
-        </button>
-      </li>
-
-      
-    </ProductList>
-  );
 }
 
-export default Home;
+export default connect()(Home);
