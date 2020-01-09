@@ -18,12 +18,18 @@ export default function cart(state = [], action) {
             });
         case 'REMOVE_ITEM':
             return produce(state, draft => {
+
+                console.tron.log(draft)
+                console.tron.log(state)
                 
                 const productIndex = draft.findIndex(p => p.id === action.id);
 
                 if (productIndex >= 0) {
                     draft.splice(productIndex, 1)
                 };
+
+                console.tron.log(draft)
+                console.tron.log(state)
             });
         default:
             return state;
