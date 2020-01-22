@@ -6,13 +6,13 @@ import * as CartActions from '../../store/modules/cart/actions';
 import { MdRemoveCircleOutline, MdAddCircleOutline, MdDelete } from 'react-icons/md';
 import { Container, ProductTable, Total } from './styles';
 
-function Cart({ cart, removeFromCart, updateAmount, total }){
+function Cart({ cart, removeFromCart, updateAmountRequest, total }){
     function increment(product) {
-        updateAmount(product.id ,product.amount + 1)
+        updateAmountRequest(product.id ,product.amount + 1)
     }
 
     function decrement(product) {
-        updateAmount(product.id ,product.amount - 1)
+        updateAmountRequest(product.id ,product.amount - 1)
     }
 
     return(
@@ -82,14 +82,18 @@ function Cart({ cart, removeFromCart, updateAmount, total }){
 const mapStateToProps = state => ({
     cart: state.cart.map(product => ({
         ...product,
-        subTotal: formatPrice(product.price * product.amount)
+        subTotal: formatPrice(product.price * product.amount),
     })),
-    total: formatPrice(state.cart.reduce((total, product) => {
-        return total + product.price * product.amount
-    }, 0))
+    total: formatPrice(
+        state.cart.reduce((total, product) => {
+            return total + product.price * product.amount
+        }, 0)
+    )
 });
+
 
 const mapDispatchToProps = dispatch => 
     bindActionCreators(CartActions, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+

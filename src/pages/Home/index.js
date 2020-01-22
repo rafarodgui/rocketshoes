@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { MdAddShoppingCart } from 'react-icons/md';
+import { formatPrice } from '../../util/format';
 import api from '../../services/api'; 
 
 import * as CartActions from '../../store/modules/cart/actions';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
-import { formatPrice } from '../../util/format';
 
 import { ProductList } from './styles';
 
@@ -73,7 +72,7 @@ class Home extends Component {
 
 const mapStateToProps = state => ({
   amount: state.cart.reduce((amount, product) => {
-    amount[product.id] = product.amount
+    amount[product.id] = product.amount;
 
     return amount
   }, {})
