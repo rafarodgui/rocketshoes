@@ -13,17 +13,17 @@ import Routes from './routes';
 
 import Header from './Components/Header/index';
 
-function App(){
-    return(
+function App() {
+    return (
         <Provider store={store}>
             <Router history={history}>
                 <Header />
                 <Routes />
                 <GlobalStyle />
-                <ToastContainer autoClose={3000}/>
+                <ToastContainer autoClose={3000} />
             </Router>
         </Provider>
-    )
+    );
 }
 
 export default App;

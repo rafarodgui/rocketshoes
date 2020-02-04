@@ -57,18 +57,18 @@ export const ProductList = styled.ul`
                 display: flex;
                 align-items: center;
                 padding: 12px;
-                background: rgba(0, 0, 0, 0.1)
+                background: rgba(0, 0, 0, 0.1);
             }
 
             svg {
-                margin-right: 5px
+                margin-right: 5px;
             }
 
             > span {
                 flex: 1;
                 text-align: center;
                 font-weight: bold;
-            } 
+            }
         }
     }
-`
+`;
